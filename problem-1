@@ -1,0 +1,44 @@
+#include <iostream>
+#include <math.h>
+using namespace std;
+
+struct Advertising {
+    int ads;
+    double percent;
+    int revenue;
+};
+
+int main() {
+    //Вводим сначала количество оъявлений, потом процент, потом деньги за одно объявление
+    struct Advertising day_1;
+    cin >> day_1.ads >> day_1.percent >> day_1.revenue;
+
+    if ((day_1.percent < 0)||(day_1.percent > 100)||(day_1.ads < 0)||(day_1.revenue < 1)){
+        cout << "Invalid input";
+        return 1;
+    }
+
+    double result;
+    result = day_1.revenue * day_1.ads * day_1.percent * 0.01;
+
+    if (result >= 1) {
+        //нормально округляем
+        result = round(result * 100)/100;
+    }
+    else if (result == 0) {
+        cout << "0.0";
+        return 2;
+    } else {
+        //значит он вида 0,0000567789
+        int rounds = 1;
+        int result_an = 0;
+        while (result_an == 0) {
+            rounds *= 10;
+            result_an = round(result * rounds);
+        }
+        result = round(result * rounds) / rounds;
+    }
+
+    cout << result;
+    return 0;
+}
